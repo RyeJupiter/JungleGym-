@@ -8,6 +8,13 @@ const AUTH_ROUTES = ['/auth/login', '/auth/signup']
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
+  // Rewrite /@username → /username so the [username] route handles it
+  if (pathname.startsWith('/@')) {
+    const url = request.nextUrl.clone()
+    url.pathname = pathname.slice(1) // strip the leading @
+    return NextResponse.rewrite(url)
+  }
+
   const response = await updateSession(request)
 
   const isProtected = PROTECTED_ROUTES.some((route) => pathname.startsWith(route))
