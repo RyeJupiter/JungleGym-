@@ -31,7 +31,7 @@ export default function HomePage() {
         <section className="pt-44 pb-32 px-6 text-center">
           <div className="max-w-3xl mx-auto">
             <div className="inline-block bg-jungle-800 text-jungle-300 text-xs font-semibold px-4 py-1.5 rounded-full mb-8 tracking-widest uppercase">
-              Minds in motion · Movement is joyful
+              Where minds and bodies in motion empower each other
             </div>
             <h1 className="text-6xl sm:text-7xl font-black tracking-tight text-white mb-6 text-balance leading-none">
               Learn from people
@@ -40,7 +40,7 @@ export default function HomePage() {
             </h1>
             <p className="text-lg text-jungle-300 mb-10 max-w-xl mx-auto text-balance leading-relaxed">
               Skill-based videos and live sessions from vetted teachers.
-              Every piece gives you something to train — body and mind — today.
+              Mind and body, moving together — each one making the other stronger.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link
@@ -144,12 +144,13 @@ export default function HomePage() {
       <section className="py-20 px-6 bg-jungle-50">
         <div className="max-w-5xl mx-auto text-center">
           <div className="inline-block bg-jungle-100 text-jungle-700 text-xs font-semibold px-4 py-1.5 rounded-full mb-6 tracking-widest uppercase">
-            Minds in motion
+            Minds and bodies in motion
           </div>
-          <h2 className="text-4xl font-black mb-4 text-jungle-900">Movement sharpens the mind</h2>
+          <h2 className="text-4xl font-black mb-4 text-jungle-900">Where minds and bodies learn to empower each other</h2>
           <p className="text-jungle-700 text-lg mb-12 max-w-2xl mx-auto leading-relaxed">
-            Movement is physical and it is mental — it cultivates focus, presence, and awareness.
-            JungleGym teachers hold both. Every session leaves you clearer, not just stronger.
+            Movement is joyful. It is also intelligent. When mind and body move together,
+            they teach each other — focus deepens strength, strength steadies focus.
+            JungleGym is where that learning happens.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
             {[
