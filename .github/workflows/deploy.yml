@@ -30,9 +30,15 @@ jobs:
           NEXT_PUBLIC_SITE_URL: https://junglegym.academy
 
       - name: Deploy with Wrangler
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiKey: ${{ secrets.CLOUDFLARE_API_KEY }}
-          email: ${{ secrets.CLOUDFLARE_EMAIL }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy --config apps/web/wrangler.toml
+        run: |
+          cd apps/web
+          npx wrangler deploy 2>&1 | tee /tmp/wrangler-output.txt
+          exit ${PIPESTATUS[0]}
+        env:
+          CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
+          CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Show wrangler output on failure
+        if: failure()
+        run: cat /tmp/wrangler-output.txt || echo "No output captured"
