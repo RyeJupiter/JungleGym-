@@ -39,8 +39,8 @@ export default function HomePage() {
               <span className="text-jungle-400">who love to move</span>
             </h1>
             <p className="text-lg text-jungle-300 mb-10 max-w-xl mx-auto text-balance leading-relaxed">
-              Skill-based videos and live sessions from vetted teachers.
-              Mind and body, moving together — each one making the other stronger.
+              A picture speaks a thousand words. Bodies communicate through movement —
+              the language of the body. You&apos;re here to expand your vocabulary.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link

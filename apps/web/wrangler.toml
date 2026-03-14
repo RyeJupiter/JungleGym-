@@ -3,3 +3,15 @@ compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 
 pages_build_output_dir = ".vercel/output/static"
+
+# Custom domain — add junglegym.academy in the Cloudflare Pages dashboard
+# (Pages > your project > Custom domains > Add domain)
+# DNS: CNAME junglegym.academy → <your-project>.pages.dev (Cloudflare proxied)
+
+[[routes]]
+pattern = "junglegym.academy/*"
+zone_name = "junglegym.academy"
+
+[[routes]]
+pattern = "www.junglegym.academy/*"
+zone_name = "junglegym.academy"
