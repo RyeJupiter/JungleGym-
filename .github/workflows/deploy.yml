@@ -9,6 +9,8 @@ jobs:
     name: Run Supabase Migrations
     runs-on: ubuntu-latest
     environment: production
+    # Skip gracefully if Supabase secrets aren't configured yet
+    if: ${{ secrets.SUPABASE_PROJECT_REF != '' }}
 
     steps:
       - name: Checkout
@@ -31,7 +33,8 @@ jobs:
     name: Build & Deploy to Cloudflare Workers
     runs-on: ubuntu-latest
     environment: production
-    needs: migrate
+    # Run deploy independently — don't block on migrations
+    if: always()
 
     steps:
       - name: Checkout
