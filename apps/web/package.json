@@ -1,0 +1,36 @@
+{
+  "name": "@junglegym/web",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "build:cloudflare": "npx @opennextjs/cloudflare build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf .next dist"
+  },
+  "dependencies": {
+    "@junglegym/shared": "*",
+    "@supabase/ssr": "^0.5.2",
+    "@supabase/supabase-js": "^2.43.4",
+    "next": "15.2.9",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@opennextjs/cloudflare": "^1.17.1",
+    "@types/node": "^20.14.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "autoprefixer": "^10.4.19",
+    "esbuild": "^0.27.4",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^15.2.3",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.4",
+    "typescript": "^5.4.5",
+    "wrangler": "^3.91.0"
+  }
+}

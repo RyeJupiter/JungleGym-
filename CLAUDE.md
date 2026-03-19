@@ -1,0 +1,160 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Commands
+
+```bash
+# From repo root
+npm run dev          # Start all apps
+npm run build        # Build all packages
+npm run type-check   # TypeScript check across all packages
+
+# From apps/web
+npm run dev          # Next.js dev server
+npm run build:cloudflare  # Cloudflare Workers build (use this to test prod builds)
+npx wrangler pages deployment list --project-name junglegym  # Check deploy status
+```
+
+## Architecture
+
+**Turborepo monorepo** with two workspaces:
+- `apps/web` — Next.js 15.2.9 App Router, deployed to Cloudflare Pages via `@opennextjs/cloudflare`
+- `packages/shared` — TypeScript types, Supabase DB types, pricing utils, validation
+
+**Database**: Supabase (PostgreSQL + RLS + Storage). All schema is in `supabase/migrations/` — run them in order (00001–00006) to set up a fresh database.
+
+**Auth**: `@supabase/ssr` with cookie-based sessions. Two client factories:
+- `src/lib/supabase/server.ts` — for Server Components and Route Handlers (async, uses `cookies()`)
+- `src/lib/supabase/client.ts` — for Client Components (`'use client'`)
+
+**Middleware** (`src/middleware.ts`): Refreshes auth via `updateSession()`, protects `/dashboard /profile /studio /library /apply`, rewrites `/@username` → `/[username]`.
+
+## Key Patterns
+
+**Next.js 15**: `params` and `searchParams` are `Promise<{...}>` — always `await` them.
+
+**Supabase join filters** on FK relations are unreliable. Do two-step queries: fetch IDs first, then `.in('col', ids)`.
+
+**Client components using `useSearchParams()`** must be wrapped in `<Suspense>` in their parent page.
+
+**Pricing**: Videos use 3-tier "fun pricing" (`packages/shared/src/utils/pricing.ts`). Prices are pre-calculated and stored on the video row — not computed at query time.
+
+**Cloudflare builds**: Pinned to Next.js `15.2.9`. Do not bump Next.js — `@opennextjs/cloudflare@1.17.1` breaks with Next.js 15.4+.
+
+## Data Model (short version)
+
+- `users` — mirrors `auth.users`, has `role` ('creator' | 'learner')
+- `profiles` — display info + creator pricing rates; `username` is unique slug
+- `videos` — free or 3-tier paid; `published` flag; `creator_id → users`
+- `purchases` — one per (user, video); `amount_paid` goes 100% to creator; optional `platform_tip_pct`
+- `live_sessions` — creator-hosted classes with `scheduled_at`
+- `gifts` — donations to live sessions with adjustable platform tip
+- `teacher_applications` — learner → creator upgrade requests (pending/approved/rejected)
+- `video_shares` — one share token per (owner, video); `redeem_video_share` RPC creates a $0 purchase atomically
+
+---
+
+## What JungleGym Is
+
+A movement video platform — yoga, dance, martial arts, breathwork, and beyond. Learners discover and buy videos directly from vetted teachers ("lead monkeys"). Pay once per video, own it forever.
+
+**Mission**: Liquidate Physical Education. Replace the standardized, joyless model with vetted teachers sharing what they love, students choosing what moves them, money flowing directly to the source.
+
+**Live at**: [junglegym.academy](https://junglegym.academy)
+
+---
+
+## Business Model
+
+**Creators** publish video content tied to their profile, discoverable via recommendation algorithm.
+
+**Pricing tiers** (creator sets their own per-minute rate):
+- Supported: ~$1/min
+- Community: ~$2/min
+- Abundance: ~$3/min
+- Prices round DOWN to nearest fun number: $1.11, $2.22, $3.33, $4.20, etc.
+- Every creator is encouraged to offer one free video
+
+**Platform tip**: Suggested 10% to JungleGym at checkout ("Tip the jungle gym?"), adjustable 0–200%. Recorded in DB as `platform_tip_pct` — not a checkout line item.
+
+**Money flow**:
+- All payments into JungleGym business accounts (Stripe/PayPal)
+- Platform pays creators via Venmo for now, direct deposit eventually
+- No Stripe Connect / instant payouts yet — manual batch payouts
+
+**Sharing**: Each user who owns a video may share access with ONE other user (`video_shares` table + `redeem_video_share` RPC — already built).
+
+---
+
+## Claude Code Coordination
+
+This file is the shared source of truth for all Claude Code instances working in this repo. The dev team (Davin + Rye) uses multiple Claude Code sessions, sometimes simultaneously.
+
+**If you make a significant change, add an entry to the [Change Log](#change-log) at the bottom of this file.** Include: date, what changed, and why. This keeps all Claude instances and both teammates informed across sessions.
+
+**If you receive new instructions that update how to work in this repo**, update the relevant section here so future instances inherit that knowledge.
+
+---
+
+## Team
+
+| Person | Role | Contact |
+|--------|------|---------|
+| Rye Seekins | Founder, full-stack builder | rye.seekins@gmail.com |
+| Davis Dunham | New team member | TBD |
+| Emily (exploremorewithemily) | First creator, JungleGym OG | exploremorewithemily@gmail.com |
+
+---
+
+## Key Decisions Made
+
+- **No Stripe Connect yet** — manual payouts via Venmo. Stripe Connect is planned but blocked on Stripe + PayPal account credentials from Rye.
+- **Fun pricing is pre-calculated** — stored on the video row, not computed at query time.
+- **Supabase FK join filters are unreliable** — always do two-step queries.
+- **Next.js pinned at 15.2.9** — do not bump; Cloudflare adapter breaks above this.
+- **Google OAuth** — not yet added. Steps: Google Cloud Console creds → Supabase Auth providers → "Continue with Google" button in `LoginForm.tsx` and `SignupForm.tsx`.
+
+---
+
+## Roadmap / What's Not Built Yet
+
+### Payments
+- **Stack:** Stripe (Apple Pay + cards via Payment Element) + PayPal JS SDK (PayPal + Venmo buttons)
+- **Creator payouts:** Stripe Connect Express — `/studio/payouts` onboarding flow
+- **Platform tip** recorded in DB after the fact, not as a checkout line item
+- **What needs building:** Stripe Connect onboarding, server-side payment intent route, checkout UI, Stripe + PayPal webhook handlers → write confirmed purchases to Supabase
+- **Blocked on:** Stripe account + PayPal account credentials from Rye
+
+### Google OAuth
+- Steps: Google Cloud Console → create OAuth credentials → Supabase Auth → Providers → Google → add creds → "Continue with Google" button in `LoginForm.tsx` and `SignupForm.tsx`
+- Why: reduce signup friction for creators like Emily
+
+### Creator Notifications
+- Creators notified when purchases come in (all payments go through JungleGym, not Stripe Connect)
+- Modes (creator sets in studio settings): every purchase, daily summary, weekly summary, or threshold-only
+- Implementation: Supabase Realtime on `purchases` table filtered by `creator_id` → toast in studio dashboard
+- Add `notification_pref` column to `profiles` table
+- Email fallback for offline creators
+
+### Recommendation Algorithm
+- Surface similar classes on video pages and after purchase
+
+### Kinectr Integration
+- JungleGym live sessions linking directly into Kinectr events
+- Kinectr as the "profiles hub" that JungleGym plugs into
+
+---
+
+## JungleGym + Kinectr Connection
+
+The movement niche (yoga, dance, etc.) is a natural beachhead for Kinectr — the local events platform built by MichaelDavid. JungleGym live sessions could directly link into Kinectr events. Kinectr as the "profiles hub" that JungleGym plugs into. Keep this in mind when designing live session and creator profile features.
+
+---
+
+## Change Log
+
+| Date | Who | What | Why |
+|------|-----|------|-----|
+| 2026-03-19 | Davin | Added Claude Code coordination section + this change log to CLAUDE.md | Multiple Claude instances need shared context across sessions |
+| 2026-03-19 | Rye | Expanded roadmap with full detail on payments, OAuth, notifications, Kinectr | .claude/ is gitignored — CLAUDE.md is the shared memory |

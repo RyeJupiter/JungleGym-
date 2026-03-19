@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JungleGym — Move. Learn. Own it.</title>
+  <meta name="description" content="JungleGym — movement classes from vetted guides. Yoga, dance, martial arts, breathwork. Pay once, own forever." />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0d0608;
+      color: #f0ddc8;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 120% 60% at 50% 50%, rgba(180, 60, 20, 0.18) 0%, transparent 60%),
+        radial-gradient(ellipse at 30% 40%, rgba(200, 120, 30, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 60%, rgba(140, 30, 10, 0.15) 0%, transparent 50%);
+      animation: vortex 20s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      width: 300px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(180, 50, 10, 0.25) 0%, rgba(200, 100, 20, 0.1) 40%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: redspot 12s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+    @keyframes vortex { 0% { transform: scale(1) rotate(0deg); } 100% { transform: scale(1.05) rotate(3deg); } }
+    @keyframes redspot { 0% { transform: translate(-60%, -40%) scale(1); opacity: 0.6; } 100% { transform: translate(-40%, -60%) scale(1.2); opacity: 1; } }
+
+    .back {
+      position: relative; z-index: 1;
+      align-self: flex-start;
+      margin-bottom: 24px;
+      color: rgba(220,120,40,0.7);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      transition: color 0.2s;
+    }
+    .back:hover { color: #e08030; }
+
+    .card {
+      width: 100%;
+      max-width: 480px;
+      background: rgba(20, 8, 5, 0.75);
+      border: 1px solid rgba(200, 100, 40, 0.25);
+      border-radius: 24px;
+      padding: 44px 36px;
+      backdrop-filter: blur(16px);
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 0 60px rgba(160, 50, 10, 0.2), inset 0 1px 0 rgba(220,160,80,0.1);
+    }
+
+    .icon {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at 35% 35%, #e8a020, #c03010 50%, #6a1008);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 36px;
+      margin: 0 auto 20px;
+      box-shadow: 0 0 50px rgba(200,80,20,0.5);
+      animation: pulse 4s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 50px rgba(200,80,20,0.5); }
+      50% { box-shadow: 0 0 70px rgba(220,100,20,0.7); }
+    }
+
+    .name { text-align: center; font-size: 28px; font-weight: 900; color: #fff; margin-bottom: 4px; }
+    .tagline {
+      text-align: center;
+      font-size: 12px;
+      color: #e08030;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .divider {
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(200,100,40,0.4), transparent);
+      margin-bottom: 24px;
+    }
+
+    .bio {
+      font-size: 15px;
+      color: rgba(240,200,150,0.8);
+      line-height: 1.8;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .disciplines {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 28px;
+    }
+    .discipline {
+      background: rgba(200,100,30,0.12);
+      border: 1px solid rgba(200,100,30,0.25);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(240,200,150,0.75);
+      letter-spacing: 0.04em;
+    }
+
+    .pricing {
+      text-align: center;
+      font-size: 12px;
+      color: rgba(240,200,150,0.45);
+      margin-bottom: 28px;
+      letter-spacing: 0.03em;
+    }
+    .pricing strong { color: rgba(240,200,150,0.7); }
+
+    .cta-group { display: flex; flex-direction: column; gap: 10px; }
+
+    .cta {
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 14px;
+      border-radius: 14px;
+      transition: all 0.2s;
+    }
+    .cta-primary {
+      background: rgba(180,60,10,0.25);
+      border: 1px solid rgba(220,120,40,0.5);
+      color: #f0ddc8;
+    }
+    .cta-primary:hover {
+      background: rgba(180,60,10,0.4);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 20px rgba(180,60,10,0.25);
+    }
+    .cta-secondary {
+      background: transparent;
+      border: 1px solid rgba(200,100,40,0.2);
+      color: rgba(240,200,150,0.6);
+      font-size: 13px;
+    }
+    .cta-secondary:hover {
+      border-color: rgba(200,100,40,0.4);
+      color: rgba(240,200,150,0.9);
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 11px;
+      color: rgba(240,200,150,0.15);
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <a href="/" class="back">← ryejupiter.org</a>
+
+  <div class="card">
+    <div class="icon">🌿</div>
+    <h1 class="name">JungleGym</h1>
+    <p class="tagline">Monkey See. Monkey Do.</p>
+    <div class="divider"></div>
+
+    <p class="bio">
+      Movement education from vetted guides — real teachers, real practice.
+      Pay once per video and own it forever, priced by the minute.
+      The jungle gym is for everyone.
+    </p>
+
+    <div class="disciplines">
+      <span class="discipline">Yoga</span>
+      <span class="discipline">Dance</span>
+      <span class="discipline">Martial Arts</span>
+      <span class="discipline">Breathwork</span>
+      <span class="discipline">Calisthenics</span>
+      <span class="discipline">Ecstatic Movement</span>
+    </div>
+
+    <p class="pricing">
+      <strong>Pay once. Own forever.</strong> &nbsp;·&nbsp; Priced per minute &nbsp;·&nbsp; Direct to teachers
+    </p>
+
+    <div class="cta-group">
+      <a href="https://junglegym.academy" target="_blank" class="cta cta-primary">Browse Classes ↗</a>
+      <a href="https://junglegym.academy/teach" target="_blank" class="cta cta-secondary">Become a Movement Guide →</a>
+    </div>
+  </div>
+
+  <p class="footer">© 2026 Jovian Productions</p>
+</body>
+</html>

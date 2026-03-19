@@ -1,0 +1,37 @@
+import { createServerSupabaseClient } from '@/lib/supabase/server'
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ token: string }> }
+) {
+  const { token } = await params
+  const origin = new URL(request.url).origin
+
+  const supabase = await createServerSupabaseClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) {
+    return NextResponse.redirect(`${origin}/auth/login?next=/api/share/${token}`)
+  }
+
+  const result = await supabase.rpc('redeem_video_share', {
+    p_token: token,
+    p_user_id: user.id,
+  })
+
+  const data = result.data as { error?: string; video_id?: string; owner_user_id?: string } | null
+
+  if (result.error || !data) {
+    return NextResponse.redirect(`${origin}/explore?notice=share_error`)
+  }
+  if (data.error === 'invalid_token') {
+    return NextResponse.redirect(`${origin}/explore?notice=invalid_share`)
+  }
+  if (data.error === 'already_redeemed') {
+    return NextResponse.redirect(`${origin}/explore?notice=share_used`)
+  }
+
+  return NextResponse.redirect(`${origin}/video/${data.video_id}?shared=1`)
+}

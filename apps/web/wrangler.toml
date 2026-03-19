@@ -1,0 +1,12 @@
+name = "junglegym"
+main = ".open-next/worker.js"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+assets = { directory = ".open-next/assets", binding = "ASSETS" }
+
+# Routes are configured in the Cloudflare dashboard under Workers > junglegym > Triggers
+# once the domain is active on this account.
+# [[routes]]
+# pattern = "junglegym.academy/*"
+# zone_name = "junglegym.academy"
