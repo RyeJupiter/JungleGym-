@@ -102,7 +102,7 @@ export default function HomePage() {
               {[
                 { emoji: '🌱', tier: 'Supported', rate: '$1/min', price: '$10' },
                 { emoji: '🌿', tier: 'Community', rate: '$2/min', price: '$20' },
-                { emoji: '🌳', tier: 'Abundance', rate: '$3/min', price: '$40' },
+                { emoji: '🌳', tier: 'Abundance', rate: '$3/min', price: '$30' },
               ].map((t) => (
                 <div key={t.tier} className="bg-jungle-50 rounded-xl p-3">
                   <div className="text-2xl mb-1">{t.emoji}</div>
