@@ -21,7 +21,7 @@ export default async function StudioSettingsPage() {
     .eq('user_id', authUser.id)
     .single()
 
-  if (!profile) redirect('/studio')
+  if (!profile) redirect('/profile')
 
   return (
     <div className="min-h-screen bg-stone-50">

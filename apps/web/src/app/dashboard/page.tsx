@@ -18,6 +18,7 @@ export default async function DashboardPage() {
   ])
 
   const isCreator = user?.role === 'creator'
+  const isAdmin = ['rye.seekins@gmail.com', 'davis@earthpulse.dev'].includes(authUser.email ?? '')
 
   const [{ count: videoCount }, { count: purchaseCount }, { count: sessionCount }] =
     await Promise.all([
@@ -52,6 +53,7 @@ export default async function DashboardPage() {
           <Link href="/sessions" className="hover:text-white transition-colors">Sessions</Link>
           {isCreator && <Link href="/studio" className="hover:text-white transition-colors">Studio</Link>}
           <Link href="/profile" className="hover:text-white transition-colors">Profile</Link>
+          {isAdmin && <Link href="/admin" className="hover:text-white transition-colors text-jungle-500">Admin</Link>}
           <LogoutButton className="hover:text-white transition-colors" />
         </nav>
       </header>
