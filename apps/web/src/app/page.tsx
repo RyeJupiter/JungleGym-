@@ -35,7 +35,7 @@ export default function HomePage() {
         <section className="pt-28 pb-24 px-6 text-center">
           <div className="max-w-3xl mx-auto">
             <div className="flex flex-wrap justify-center gap-2 mb-10">
-              {['🧘 yoga', '💪 strength', '🌀 mobility', '🥊 hiit', '🔔 kettlebell', '🌬️ breathwork'].map((tag) => (
+              {['🧘 yoga', '💪 strength', '🌀 mobility', '🔔 kettlebell', '🌬️ breathwork', '🦋 hip flexors', '🤝 contact dance', '💃 dance lifts'].map((tag) => (
                 <span key={tag} className="bg-jungle-800 text-jungle-300 text-xs font-semibold px-3 py-1.5 rounded-full">
                   {tag}
                 </span>
@@ -55,7 +55,7 @@ export default function HomePage() {
                 href="/explore"
                 className="bg-earth-400 hover:bg-earth-500 text-white font-bold px-8 py-4 rounded-xl text-lg transition-colors"
               >
-                Start exploring →
+                Browse videos →
               </Link>
               <Link
                 href="/sessions"
@@ -72,7 +72,7 @@ export default function HomePage() {
           <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
             {[
               { emoji: '🔍', title: 'Find a teacher', body: 'Browse by style — yoga, kettlebell, mobility, breathwork, and more.' },
-              { emoji: '🎬', title: 'Watch & train', body: 'Pay what feels right. Every video has a fair minimum so teachers get paid.' },
+              { emoji: '🎬', title: 'Watch & train', body: '100% goes to the teacher. We suggest a 10% optional tip to keep the lights on — you set it.' },
               { emoji: '🎁', title: 'Join live sessions', body: 'Real-time classes, gift-based. Give freely — 100% goes to the teacher.' },
             ].map((step) => (
               <div key={step.title} className="bg-jungle-800/60 rounded-2xl p-6 border border-jungle-700">
@@ -168,7 +168,6 @@ export default function HomePage() {
       <section className="py-20 px-6 bg-white">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
           <div>
-            <div className="text-4xl mb-4">🎁</div>
             <h2 className="text-4xl font-black mb-4 text-jungle-900">Live classes run on vibes and generosity</h2>
             <p className="text-jungle-700 text-lg mb-4 leading-relaxed">
               Live sessions are gift-based — no price tag, no minimum.{' '}
