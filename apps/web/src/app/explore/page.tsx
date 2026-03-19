@@ -16,10 +16,10 @@ export default async function ExplorePage({
   // Auth state for nav
   const { data: { user } } = await supabase.auth.getUser()
 
-  // Build video query — apply all filters before awaiting
+  // Build video query — no join (videos.creator_id → users, not profiles)
   let videoQuery = supabase
     .from('videos')
-    .select('*, profiles!creator_id(display_name, username, photo_url)')
+    .select('*')
     .eq('published', true)
     .order('created_at', { ascending: false })
     .limit(30)
@@ -31,11 +31,18 @@ export default async function ExplorePage({
     videoQuery = videoQuery.ilike('title', `%${q}%`)
   }
 
-  // Fetch creator IDs first, then profiles — avoids unreliable join filter
+  // Fetch creator users for the Teachers section
   const [{ data: videos }, { data: creatorUsers }] = await Promise.all([
     videoQuery,
     supabase.from('users').select('id').eq('role', 'creator').limit(8),
   ])
+
+  // Look up profiles for videos (two-step — FK goes users→profiles, not videos→profiles)
+  const videoCreatorIds = [...new Set((videos ?? []).map((v) => v.creator_id))]
+  const { data: videoProfiles } = videoCreatorIds.length
+    ? await supabase.from('profiles').select('user_id, display_name, username, photo_url').in('user_id', videoCreatorIds)
+    : { data: [] }
+  const profileByUserId = Object.fromEntries((videoProfiles ?? []).map((p) => [p.user_id, p]))
 
   const creatorIds = creatorUsers?.map((u) => u.id) ?? []
   const { data: creators } = creatorIds.length
@@ -133,7 +140,7 @@ export default async function ExplorePage({
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-16">
             {videos!.map((video) => {
-              const creator = video.profiles as { display_name: string; username: string; photo_url: string | null } | null
+              const creator = profileByUserId[video.creator_id] ?? null
               return (
                 <Link key={video.id} href={`/video/${video.id}`}>
                   <div className="bg-white rounded-2xl overflow-hidden border border-stone-200 hover:border-jungle-400 hover:shadow-md transition-all group">
@@ -159,7 +166,7 @@ export default async function ExplorePage({
                       )}
                     </div>
                     <div className="p-4">
-                      <p className="text-xs text-jungle-600 font-semibold mb-1">@{creator?.username}</p>
+                      <p className="text-xs text-jungle-600 font-semibold mb-1">{creator?.display_name ?? creator?.username ?? 'Guide'}</p>
                       <h3 className="font-bold text-stone-900 text-sm leading-snug mb-2 group-hover:text-jungle-700 transition-colors">
                         {video.title}
                       </h3>
