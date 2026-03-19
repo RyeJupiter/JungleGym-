@@ -1,6 +1,7 @@
 import { createServerSupabaseClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import { LogoutButton } from '@/components/LogoutButton'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = { title: 'Dashboard' }
@@ -51,6 +52,7 @@ export default async function DashboardPage() {
           <Link href="/sessions" className="hover:text-white transition-colors">Sessions</Link>
           {isCreator && <Link href="/studio" className="hover:text-white transition-colors">Studio</Link>}
           <Link href="/profile" className="hover:text-white transition-colors">Profile</Link>
+          <LogoutButton className="hover:text-white transition-colors" />
         </nav>
       </header>
 
