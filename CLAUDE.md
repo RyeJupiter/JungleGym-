@@ -152,9 +152,23 @@ The movement niche (yoga, dance, etc.) is a natural beachhead for Kinectr — th
 
 ---
 
+## Git / Collaboration Workflow
+
+Davin and Rye work in tandem. To avoid conflicts:
+- **Use feature branches** — each person branches off `main` for their work (`git checkout -b name/feature`), opens a PR, merges when done
+- **Communicate ownership** — agree before starting who owns what (e.g. "I'm on payments, you're on notifications")
+- **Merge often** — keep PRs small, pull `main` frequently
+- **Do not force-push `main`** — Rye renamed the repo on 2026-03-21 which reset origin history and caused a divergence. Avoid repo renames or force-pushes to main.
+
+**Note on repo rename**: The repo was previously `JungleGym-` (with trailing dash). The rename cleared origin's git history. Davin synced via `git reset --hard origin/main` on 2026-03-21 to align with Rye's 12-commit history.
+
+---
+
 ## Change Log
 
 | Date | Who | What | Why |
 |------|-----|------|-----|
 | 2026-03-19 | Davin | Added Claude Code coordination section + this change log to CLAUDE.md | Multiple Claude instances need shared context across sessions |
 | 2026-03-19 | Rye | Expanded roadmap with full detail on payments, OAuth, notifications, Kinectr | .claude/ is gitignored — CLAUDE.md is the shared memory |
+| 2026-03-21 | Davin | Synced local main to origin after repo rename caused history divergence | Rye renamed repo which reset origin; used git reset --hard origin/main |
+| 2026-03-21 | Davin | Added Git/Collaboration Workflow section to CLAUDE.md | Established feature branch workflow to prevent future conflicts |

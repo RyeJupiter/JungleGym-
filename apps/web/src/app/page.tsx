@@ -22,8 +22,8 @@ export default async function HomePage() {
               Sessions
             </Link>
             {user ? (
-              <Link href="/dashboard" className="bg-earth-400 hover:bg-earth-500 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
-                Dashboard
+              <Link href="/library" className="bg-earth-400 hover:bg-earth-500 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
+                Library
               </Link>
             ) : (
               <>
