@@ -107,10 +107,10 @@ export function PurchaseButton({
         )}
       </div>
 
-      {/* Platform tip */}
+      {/* Platform donation */}
       <div className="bg-stone-50 rounded-xl p-4 space-y-3">
         <div className="flex items-center justify-between">
-          <p className="text-sm font-bold text-stone-700">Tip the jungle gym? 🌿</p>
+          <p className="text-sm font-bold text-stone-700">Donate to the jungle gym? 🌿</p>
           <p className="text-xs text-stone-400">Totally optional</p>
         </div>
         <div className="flex gap-2">
@@ -138,7 +138,7 @@ export function PurchaseButton({
           onChange={(e) => setTipPct(Number(e.target.value))}
           className="w-full accent-jungle-500"
         />
-        <p className="text-xs text-stone-400 text-center">{tipPct}% — {tipPct === 0 ? 'no tip' : tipPct >= 100 ? 'you\'re amazing 🙏' : 'thank you!'}</p>
+        <p className="text-xs text-stone-400 text-center">{tipPct}% — {tipPct === 0 ? 'no donation' : tipPct >= 100 ? 'you\'re amazing 🙏' : 'thank you!'}</p>
       </div>
 
       {/* Receipt breakdown */}
@@ -149,7 +149,7 @@ export function PurchaseButton({
             <span className="font-semibold">{formatPrice(selectedPrice)}</span>
           </div>
           <div className="flex justify-between text-stone-500 text-xs">
-            <span>Platform tip ({tipPct}%)</span>
+            <span>Platform donation ({tipPct}%)</span>
             <span>{tipPct > 0 ? `+ ${formatPrice(platformAmount)}` : 'None'}</span>
           </div>
           <div className="flex justify-between font-black text-stone-900 pt-1 border-t border-jungle-100">

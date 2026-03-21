@@ -96,7 +96,7 @@ export function GiftButton({
 
                 <div className="mb-4">
                   <label className="block text-sm font-medium text-stone-700 mb-2">
-                    Platform tip: {tipPct}%
+                    Platform donation: {tipPct}%
                     <span className="text-stone-400 font-normal ml-1">(adjustable — even 0%)</span>
                   </label>
                   <input
@@ -135,7 +135,7 @@ export function GiftButton({
                       <span className="font-bold text-jungle-800">{formatPrice(rawCreator)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-stone-600">Platform tip ({tipPct}%)</span>
+                      <span className="text-stone-600">Platform donation ({tipPct}%)</span>
                       <span className="text-stone-500">{formatPrice(platformAmount)}</span>
                     </div>
                     <div className="flex justify-between border-t border-stone-200 pt-1 mt-1">

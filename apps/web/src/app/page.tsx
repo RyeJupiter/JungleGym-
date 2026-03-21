@@ -84,7 +84,7 @@ export default async function HomePage() {
           <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
             {[
               { emoji: '🔍', title: 'Find a teacher', body: 'Browse by style — yoga, kettlebell, mobility, breathwork, and more.', href: '/explore' },
-              { emoji: '🎬', title: 'Watch & train', body: '100% goes to the teacher. We suggest a 10% optional tip to keep the lights on — you set it.', href: '/explore' },
+              { emoji: '🎬', title: 'Watch & train', body: '100% goes to the teacher. We suggest a 10% optional donation to keep the lights on — you set it.', href: '/explore' },
               { emoji: '🎁', title: 'Join live sessions', body: 'Real-time classes, gift-based. Give freely — 100% goes to the teacher.', href: '/sessions' },
             ].map((step) => (
               <Link key={step.title} href={step.href} className="bg-jungle-800/60 hover:bg-jungle-700/80 rounded-2xl p-6 border border-jungle-700 hover:border-jungle-500 transition-colors block">
@@ -184,7 +184,7 @@ export default async function HomePage() {
             <p className="text-jungle-700 text-lg mb-4 leading-relaxed">
               Live sessions are gift-based — no price tag, no minimum.{' '}
               <strong className="text-jungle-900">Every dollar you give goes to the teacher.</strong>{' '}
-              We add a small optional platform tip on top (10% by default, adjustable to zero).
+              We add a small optional platform donation on top (10% by default, adjustable to zero).
             </p>
             <p className="text-jungle-500 text-sm">
               Real generosity, freely given. That&apos;s the whole vibe.
@@ -202,7 +202,7 @@ export default async function HomePage() {
                 <span className="font-black text-jungle-900 text-lg">$20.00 🎉</span>
               </div>
               <div className="flex justify-between items-center text-jungle-500">
-                <span>Platform tip (10%, you set this)</span>
+                <span>Platform donation (10%, you set this)</span>
                 <span className="font-medium">+ $2.00</span>
               </div>
               <div className="border-t border-jungle-200 pt-3 flex justify-between items-center">
