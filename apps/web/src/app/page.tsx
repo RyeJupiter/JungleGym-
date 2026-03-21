@@ -22,9 +22,14 @@ export default async function HomePage() {
               Sessions
             </Link>
             {user ? (
-              <Link href="/library" className="bg-earth-400 hover:bg-earth-500 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
-                Library
-              </Link>
+              <>
+                <Link href="/library" className="text-sm text-jungle-300 hover:text-white font-medium transition-colors">
+                  Library
+                </Link>
+                <Link href="/profile" className="bg-earth-400 hover:bg-earth-500 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
+                  Profile
+                </Link>
+              </>
             ) : (
               <>
                 <Link href="/auth/login" className="text-sm text-jungle-300 hover:text-white font-medium px-4 py-2 transition-colors">

@@ -52,7 +52,7 @@ export function ProfileForm({ profile, userId, isCreator = false }: { profile: P
       }
       const { error: upsertError } = await supabase
         .from('profiles')
-        .upsert({ user_id: userId, ...updates })
+        .upsert({ user_id: userId, ...updates }, { onConflict: 'user_id' })
       if (upsertError) throw upsertError
       setSuccess(true)
       router.refresh()

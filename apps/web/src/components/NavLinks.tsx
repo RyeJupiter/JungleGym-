@@ -26,9 +26,8 @@ export function NavLinks({ isLoggedIn, isCreator, isAdmin }: Props) {
       <Link href="/sessions" className={cls('/sessions')}>Sessions</Link>
       {isLoggedIn ? (
         <>
-          <Link href="/dashboard" className={cls('/dashboard', true)}>Dashboard</Link>
+          <Link href="/library" className={cls('/library')}>Library</Link>
           {isCreator && <Link href="/studio" className={cls('/studio')}>Studio</Link>}
-          {!isCreator && <Link href="/library" className={cls('/library')}>Library</Link>}
           <Link href="/profile" className={cls('/profile')}>Profile</Link>
           {isAdmin && (
             <Link href="/admin" className={`${cls('/admin')} ${pathname.startsWith('/admin') ? '' : 'text-jungle-500'}`}>
